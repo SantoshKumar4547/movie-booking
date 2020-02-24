@@ -1,24 +1,17 @@
 # README
+A ROR project of book movie ticket online
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+The goal is to create a simple ticketing platform which displays a bunch of movies. Users can register or login. They can visit a movie page, see what theatres is the movie screened and buy tickets for a movie.
 
-Things you may want to cover:
+Ruby- 2.5.1 
+Rails - 5.0.7
 
-* Ruby version
+Steps to run this project
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+1. update password in database.yml
+2. run bundle install
+3. run rails db:create
+4. run rails db:migrate
+5. change value of show_date key for movie_screens array in seed.rb
+6. run rails db:seed
+7. run rails s
