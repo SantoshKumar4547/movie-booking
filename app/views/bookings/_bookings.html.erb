@@ -1,0 +1,53 @@
+<div class="container py-3">
+  <div class="row border border-primary">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Movie</th>
+            <th scope="col">Theater</th>
+            <th scope="col">Show Timing</th>
+            <th scope="col">Booked Seats</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @bookings.each_with_index do |booking, index| 
+            movie_screen = booking.movie_screen
+          %>
+            <tr>
+              <th scope="row"><%= index + 1 %></th>
+              <td><%= movie_screen.movie.try(:name) %></td>
+              <td>
+                <%= movie_screen.screen.theater.try(:name) %>
+                <span>|</span>
+                <span>
+                  <%= movie_screen.screen.theater.try(:landmark) %>
+                </span>
+                <span>
+                  <%= movie_screen.screen.theater.try(:city) %>
+                </span>
+              </td>
+              <td>
+                <%= movie_screen.show_date %>
+                <span>|</span>
+                <%= movie_screen.show_time.strftime("%H:%M %p") %>  
+              </td>
+              <td><%= booking.booked_seats %></td>
+              <td>
+                <% if ((movie_screen.show_date.to_date <= Date.today) && (movie_screen.show_time.strftime("%H.%M").to_f < Time.now.strftime("%H.%M").to_f))  %>
+                  <button type="button" class="btn btn-primary" disabled>
+                    Cancel
+                  </button>
+                <% else %>
+                  <%= button_to 'Cancel', booking_path(booking),class: "btn btn-outline-primary", method: :delete,data: { confirm: 'Are you sure?'} %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

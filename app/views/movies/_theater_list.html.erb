@@ -1,0 +1,50 @@
+<div class="container">
+	<% @theaters.each do | theater | %>
+		<div class="row border-bottom border-bottom border-dark">
+		  <div class="col-lg-3 col-md-3 col-sm-3">
+		    <div>
+		    	<span>
+		    		<%= theater.try(:name) %>
+		    	</span>
+		    	<p class="text-muted">
+		    		<span>
+		    		<%= theater.try(:street_name) %>
+		    	</span>
+		    	<span>
+		    		<%= theater.try(:landmark) %>
+		    	</span>
+		    	<span>
+		    		<%= theater.try(:city) %>
+		    	</span>
+		    	</p>
+		    </div>
+		  </div>
+		  <div class="col-lg-9 col-md-9 col-sm-9">
+		  	<div class="d-flex flex-row bd-highlight mb-3">
+		  		<% theater.screens.each do |screen| %>
+			    	<% screen.movie_screens.where(movie_id: @movie.id).where(show_date: @date).order('show_time').each do |movie_screen| %>
+			    		<div class="p-2 bd-highlight">
+			    			<% if user_signed_in? %>
+			    			<% show_date = movie_screen.show_date %>
+			    				<% if (movie_screen.show_time.strftime("%H.%M").to_f < Time.now.strftime("%H.%M").to_f) && (show_date == Date.today) %>
+			    					<button type="button" class="btn btn-primary" disabled>
+                  		<%= movie_screen.show_time.strftime("%H:%M %p") %>
+                  	</button>
+			    				<% elsif show_date > Date.today %>
+			    					<%= button_to movie_screen.show_time.strftime("%H:%M %p"), book_ticket_booking_path(movie_screen.id), method: :get, class: "btn btn-primary" %> 
+			    				<% else %>
+			    					<%= button_to movie_screen.show_time.strftime("%H:%M %p"), book_ticket_booking_path(movie_screen.id), method: :get, class: "btn btn-primary" %> 
+			    				<% end %>
+			    			<% else %>
+                  	<button type="button" class="btn btn-primary" disabled>
+                  		<%= movie_screen.show_time.strftime("%H:%M %p") %>
+                  	</button>
+                 <% end %>
+			    		</div>
+			    	<% end %>
+			    <% end %>
+			  </div>
+		  </div>
+		</div>
+	<% end %>
+</div>

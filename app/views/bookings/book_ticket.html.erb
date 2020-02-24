@@ -1,0 +1,85 @@
+<div class="container py-3">
+  <div class="row border border-primary">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+      <h3 class="display-6">
+        <%= @booking_details.movie.try(:name) %>
+      </h3>
+      <p class="text-muted">
+        <span>
+          <%= @booking_details.movie.movie_type.humanize.capitalize %>
+        </span>
+        <span>|</span>
+        <span" >
+          <%= @booking_details.show_date %>
+        </span>
+        <span>|</span>
+        <span id="movie_screen" movie_screen_id="<%= @booking_details.id %>" >
+          <%= @booking_details.show_time.strftime("%H:%M %p") %>
+        </span>
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+	<div class="row">
+    <div class="col-md-8 order-md-8 mb-8 pull-right">
+      <%= render 'bookings' %>
+    </div>
+    <div class="col-md-4 order-md-2 mb-4">
+      <ul class="list-group mb-3">
+        <li class="list-group-item d-flex justify-content-between lh-condensed">
+          <div>
+            <h6 class="my-0 text-muted">Ticket Price</h6>
+          </div>
+          <span class="text-muted" id="ticket_price"><%= @booking_details.ticket_price %></span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between lh-condensed">
+          <div>
+            <h6 class="my-0 text-muted">Available Seats</h6>
+          </div>
+          <span class="text-muted" id="available_seats"><%= @booking_details.available_seats %></span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between lh-condensed">
+          <div>
+            <h6 class="my-0 text-muted">Selected Seats</h6>
+          </div>
+          <span class="text-muted">
+          	<select id="selected_seats" onchange="calTotalPrice();">
+          		<% (0..@booking_details.available_seats).each do |seat| %>
+          		<option value="<%= seat %>"><%= seat %></option>
+          		<% end %>
+          	</select>
+        </span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between bg-light">
+          <div class="text-success">
+            <h6 class="my-0">Gender Discout</h6>
+          </div>
+          <span class="text-success" id="gender_discout" type="<%= current_user.gender %>">0</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between bg-light">
+          <div class="text-success">
+            <h6 class="my-0">Promo code</h6>
+          </div>
+          <span class="text-success" id="coupon_price">0</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span class="text-muted">Total Price</span>
+          <strong class="text-muted" id="total_price">0</strong>
+        </li>
+      </ul>
+
+      <form class="card p-2">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Promo code">
+          <div class="input-group-append">
+            <button type="submit" class="btn btn-secondary">Redeem</button>
+          </div>
+        </div>
+      </form>
+      <hr class="mb-4">
+      <button class="btn btn-primary btn-lg btn-block" type="button" onclick="bookTicket();">Book Ticket</button>
+    </div>
+  </div>
+</div>
