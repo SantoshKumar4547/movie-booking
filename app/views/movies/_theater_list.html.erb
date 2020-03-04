@@ -21,8 +21,10 @@
 		  </div>
 		  <div class="col-lg-9 col-md-9 col-sm-9">
 		  	<div class="d-flex flex-row bd-highlight mb-3">
+		  		<% movie_theaters = []%>
 		  		<% theater.screens.each do |screen| %>
-			    	<% screen.movie_screens.where(movie_id: @movie.id).where(show_date: @date).order('show_time').each do |movie_screen| %>
+			    	<% screen.movie_screens.map{ |moviescreen| movie_theaters << moviescreen if moviescreen.movie_id == @movie.id and moviescreen.show_date == @date } %>
+			    	<% movie_theaters.each do |movie_screen|%>
 			    		<div class="p-2 bd-highlight">
 			    			<% if user_signed_in? %>
 			    			<% show_date = movie_screen.show_date %>
